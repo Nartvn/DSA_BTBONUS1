@@ -1,0 +1,465 @@
+body {
+  font-family: "Segoe UI", sans-serif;
+  background-color: #fdfdfd;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 20px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+h2 {
+  color: #4a4a4a;
+  margin-bottom: 20px;
+}
+
+textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  resize: vertical;
+  margin-bottom: 15px;
+}
+
+select {
+  padding: 8px;
+  font-size: 16px;
+  border-radius: 8px;
+  margin-left: 10px;
+}
+
+button {
+  padding: 10px 16px;
+  margin-top: 10px;
+  margin-right: 10px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+.entry {
+  padding: 15px;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 10px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+}
+
+.entry p {
+  margin: 5px 0;
+}
+
+.diary-page {
+  height: 100vh;
+  background: url('./assets/background.jpg') no-repeat center center fixed;
+  background-size: cover;
+  padding-top: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.diary-box {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 30px;
+  border-radius: 16px;
+  max-width: 600px;
+  width: 90%;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.history-page {
+  height: 100vh;
+  background: url('./assets/background.jpg') no-repeat center center fixed;
+  background-size: cover;
+  padding-top: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  overflow-y: auto;
+}
+
+.history-box {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 30px;
+  border-radius: 16px;
+  max-width: 700px;
+  width: 90%;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.back-button {
+  background-color: #f0f0f0 !important;
+  color: #333 !important;
+  border: 1px solid #ccc !important;
+  margin-bottom: 15px;
+}
+
+.back-button:hover {
+  background-color: #e0e0e0 !important;
+}
+
+.logout-button {
+  background-color: #f44336 !important;
+  color: white !important;
+  margin-top: 20px !important;
+}
+
+.logout-button:hover {
+  background-color: #d32f2f !important;
+}
+
+/* Thêm vào App.css */
+textarea {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  line-height: 1.5;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+textarea:focus {
+  border-color: #4caf50;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+}
+
+.button-group {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.button-group button {
+  margin: 0;
+  flex: 1;
+  min-width: 120px;
+}
+
+.logout-button {
+  background-color: #f44336 !important;
+  color: white !important;
+  margin-top: 20px !important;
+  border: none !important;
+  padding: 10px 16px !important;
+  border-radius: 8px !important;
+  cursor: pointer !important;
+  transition: background-color 0.3s !important;
+}
+
+.logout-button:hover {
+  background-color: #d32f2f !important;
+}
+
+.button-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.button-row {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+}
+
+.button-row button {
+  flex: 1;
+  padding: 10px;
+  margin: 0;
+}
+
+.save-button {
+  background-color: #4caf50;
+  color: white;
+}
+
+.history-button {
+  background-color: #2196F3;
+  color: white;
+}
+
+.logout-button {
+  width: 100%;
+  background-color: #f44336;
+  color: white;
+  padding: 10px;
+}
+
+/* Đảm bảo các nút vừa với màn hình nhỏ */
+@media (max-width: 480px) {
+  .button-row {
+    flex-direction: column;
+  }
+  
+  .button-row button, 
+  .logout-button {
+    width: 100%;
+  }
+}
+
+/* Thêm vào App.css */
+.entry {
+  margin-bottom: 20px;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border-left: 4px solid #4CAF50;
+}
+
+.entry p {
+  margin: 8px 0;
+}
+
+/* Thêm các style mới */
+.history-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.delete-all-button {
+  background-color: #ff4444;
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.delete-all-button:hover {
+  background-color: #cc0000;
+}
+
+.entry-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.delete-button {
+  background-color: #ff6666;
+  color: white;
+  padding: 4px 8px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.8em;
+}
+
+.delete-button:hover {
+  background-color: #ff3333;
+}
+
+.entry {
+  position: relative;
+  padding: 15px;
+  margin-bottom: 15px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border-left: 4px solid #4CAF50;
+}
+
+/* Nart Chat UI */
+.nart-chat {
+  display: flex;
+  align-items: center;
+  background: #f0f7ff;
+  padding: 12px;
+  border-radius: 12px;
+  margin-bottom: 15px;
+  border: 1px solid #d0e3ff;
+}
+
+.nart-avatar {
+  font-size: 24px;
+  margin-right: 10px;
+}
+
+.nart-message {
+  flex: 1;
+  color: #333;
+  font-style: italic;
+}
+
+/* Hiệu ứng typing */
+@keyframes blink {
+  50% { opacity: 0.5; }
+}
+
+.is-typing::after {
+  content: "|";
+  animation: blink 1s infinite;
+  color: #4CAF50;
+}
+
+/* Diary Page Styles */
+.diary-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.mood-selector {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mood-selector select {
+  padding: 6px 10px;
+  border-radius: 16px;
+  border: 1px solid #ddd;
+  background-color: #f8f9fa;
+}
+
+/* Nart AI Container */
+.nart-container {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 15px;
+  display: flex;
+  gap: 10px;
+  border: 1px solid #e0e0e0;
+  transition: all 0.3s ease;
+}
+
+.nart-container.typing {
+  background: #f0f7ff;
+}
+
+.nart-avatar {
+  font-size: 24px;
+  color: #6c63ff;
+}
+
+.nart-content {
+  flex: 1;
+}
+
+.nart-message {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #333;
+}
+
+.typing-indicator {
+  animation: blink 1.5s infinite;
+  display: inline-block;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.nart-suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.suggestion-btn {
+  background: #e3f2fd;
+  border: none;
+  border-radius: 16px;
+  padding: 4px 10px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.2s;
+}
+
+.suggestion-btn:hover {
+  background: #bbdefb;
+}
+
+/* Textarea & Buttons */
+textarea {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  margin-bottom: 15px;
+  font-family: inherit;
+  font-size: 1rem;
+  resize: none;
+  min-height: 150px;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.save-btn, .history-btn, .logout-btn {
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s;
+  flex: 1;
+}
+
+.save-btn {
+  background: #4caf50;
+  color: white;
+}
+
+.save-btn:disabled {
+  background: #cccccc;
+  cursor: not-allowed;
+}
+
+.history-btn {
+  background: #2196f3;
+  color: white;
+}
+
+.logout-btn {
+  background: #f44336;
+  color: white;
+}
+
+@media (max-width: 600px) {
+  .diary-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .action-buttons button {
+    min-width: 100%;
+  }
+}
