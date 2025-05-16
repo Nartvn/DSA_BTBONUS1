@@ -1,17 +1,17 @@
+// Diary.jsx
 import { useState, useRef, useEffect } from "react";
 import { addDoc, collection } from "firebase/firestore";
 import { auth, db } from "../firebase";
 import { useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
+import { askGemini } from "../gemini"; // ✅ Tích hợp AI Gemini
 import "../App.css";
 
 export default function Diary() {
-  // State chính
   const [content, setContent] = useState("");
   const [mood, setMood] = useState("Bình thường");
   const [isSubmitting, setIsSubmitting] = useState(false);
   
-  // State cho AI Nart
   const [nartState, setNartState] = useState({
     isTyping: false,
     message: "Xin chào! Nart ở đây để lắng nghe bạn hôm nay ❤️",
@@ -22,7 +22,6 @@ export default function Diary() {
   const textareaRef = useRef(null);
   const diaryFormRef = useRef(null);
 
-  // Tự động điều chỉnh chiều cao textarea
   useEffect(() => {
     if (textareaRef.current) {
       textareaRef.current.style.height = "auto";
@@ -30,10 +29,9 @@ export default function Diary() {
     }
   }, [content]);
 
-  // Tương tác với AI Nart
   const consultNart = async (userText) => {
     if (!userText.trim() || userText.length < 10) return;
-    
+
     setNartState(prev => ({
       ...prev,
       isTyping: true,
@@ -41,36 +39,15 @@ export default function Diary() {
     }));
 
     try {
-      // Giả lập delay call API (thực tế sẽ thay bằng API call thật)
-      await new Promise(resolve => setTimeout(resolve, 1200));
-      
-      const responses = {
-        "Buồn": [
-          "Nart thấy hôm nay bạn có chút buồn. Muốn chia sẻ thêm không?",
-          "Những ngày buồn cũng là cơ hội để yêu thương bản thân hơn 💖",
-          `Từ "${extractMainTopic(userText)}" làm bạn buồn à? Nart luôn sẵn sàng lắng nghe.`
-        ],
-        "Vui": [
-          "Wow! Nghe vui quá! Bạn muốn kể thêm chi tiết không?",
-          `Nart thấy bạn nhắc đến "${extractMainTopic(userText)}". Chắc là trải nghiệm tuyệt vời!`,
-          "Niềm vui của bạn cũng làm Nart hạnh phúc theo 😊"
-        ],
-        "default": [
-          "Bạn muốn phân tích sâu hơn về cảm xúc hôm nay không?",
-          `Nart nhận thấy bạn đề cập đến "${extractMainTopic(userText)}". Điều đó có ý nghĩa gì với bạn?`,
-          "Mỗi ngày đều là một trang nhật ký đặc biệt. Bạn đang viết nên câu chuyện của chính mình ✨"
-        ]
-      };
+      const prompt = `Hãy phản hồi cảm xúc cho đoạn nhật ký sau một cách nhẹ nhàng, đồng cảm và có cảm xúc tích cực:\n"${userText}"`;
 
-      const moodResponses = responses[mood] || responses.default;
-      const randomResponse = moodResponses[Math.floor(Math.random() * moodResponses.length)];
-      
+      const aiReply = await askGemini(prompt);
+
       setNartState(prev => ({
         ...prev,
-        message: randomResponse,
+        message: aiReply,
         showSuggestions: true
       }));
-
     } catch (error) {
       setNartState(prev => ({
         ...prev,
@@ -81,22 +58,12 @@ export default function Diary() {
     }
   };
 
-  // Hàm trích xuất chủ đề chính
-  const extractMainTopic = (text) => {
-    const words = text.toLowerCase().match(/\b(\w{4,})\b/g) || [];
-    const stopWords = ["hôm", "nay", "cảm", "thấy"];
-    const filtered = words.filter(word => !stopWords.includes(word));
-    return filtered.slice(0, 2).join(", ") || "nhiều điều thú vị";
-  };
-
-  // Gợi ý nhanh từ Nart
   const quickSuggestions = [
     { emoji: "💡", text: "Điều đáng nhớ nhất hôm nay?" },
     { emoji: "🌻", text: "Viết về khoảnh khắc làm bạn mỉm cười" },
     { emoji: "🤔", text: "Điều gì khiến bạn trăn trở?" }
   ];
 
-  // Xử lý submit nhật ký
   const handleSubmit = async (e) => {
     e.preventDefault();
     const user = auth.currentUser;
@@ -131,7 +98,6 @@ export default function Diary() {
     }
   };
 
-  // Xử lý đăng xuất
   const handleLogout = async () => {
     try {
       await signOut(auth);
@@ -195,7 +161,7 @@ export default function Diary() {
             value={content}
             onChange={(e) => {
               setContent(e.target.value);
-              if (e.target.value.length % 30 === 0) consultNart(e.target.value);
+              if (e.target.value.length % 40 === 0) consultNart(e.target.value);
             }}
             disabled={isSubmitting}
             rows={5}
