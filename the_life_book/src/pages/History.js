@@ -4,14 +4,28 @@ import { auth, db } from "../firebase";
 import { useNavigate } from "react-router-dom";
 import "../App.css";
 
+/**
+ * Component `History` hiển thị danh sách các nhật ký đã lưu của người dùng hiện tại.
+ * Cho phép người dùng:
+ * - Xem lại các mục nhật ký đã ghi.
+ * - Xóa từng mục riêng lẻ.
+ * - Xóa toàn bộ nhật ký cùng lúc.
+ */
 export default function History() {
   const [entries, setEntries] = useState([]);
   const navigate = useNavigate();
 
+  // Tải dữ liệu nhật ký khi component được render
   useEffect(() => {
     fetchData();
   }, []);
 
+  /**
+   * Hàm fetchData:
+   * - Truy vấn Firestore để lấy tất cả nhật ký của người dùng hiện tại.
+   * - Sắp xếp theo thời gian giảm dần.
+   * - Cập nhật state `entries`.
+   */
   const fetchData = async () => {
     const user = auth.currentUser;
     if (!user) return;
@@ -31,10 +45,17 @@ export default function History() {
       const dateTimeB = new Date(`${b.date} ${b.time || '00:00:00'}`).getTime();
       return dateTimeB - dateTimeA;
     });
-    
+
     setEntries(data);
   };
 
+  /**
+   * Hàm handleDelete:
+   * - Xóa một nhật ký cụ thể theo ID.
+   * - Hiển thị xác nhận từ người dùng trước khi xóa.
+   * 
+   * @param {string} id - ID của tài liệu nhật ký cần xóa.
+   */
   const handleDelete = async (id) => {
     if (window.confirm("Bạn có chắc muốn xóa nhật ký này?")) {
       try {
@@ -47,16 +68,21 @@ export default function History() {
     }
   };
 
+  /**
+   * Hàm handleDeleteAll:
+   * - Xóa toàn bộ nhật ký của người dùng hiện tại.
+   * - Hiển thị xác nhận từ người dùng trước khi thực hiện.
+   */
   const handleDeleteAll = async () => {
     if (window.confirm("Bạn có chắc muốn xóa TẤT CẢ nhật ký? Hành động này không thể hoàn tác!")) {
       try {
         const user = auth.currentUser;
         const q = query(collection(db, "diaries"), where("userId", "==", user.uid));
         const snapshot = await getDocs(q);
-        
+
         const deletePromises = snapshot.docs.map(doc => deleteDoc(doc.ref));
         await Promise.all(deletePromises);
-        
+
         setEntries([]);
         alert("Đã xóa tất cả nhật ký!");
       } catch (err) {
@@ -79,7 +105,7 @@ export default function History() {
             </button>
           )}
         </div>
-        
+
         {entries.length === 0 ? (
           <p>Chưa có nhật ký nào.</p>
         ) : (
@@ -104,7 +130,14 @@ export default function History() {
   );
 }
 
-// Hàm formatDateTime (có thể đặt trong file utils)
+/**
+ * Hàm formatDateTime:
+ * - Định dạng ngày và giờ thành chuỗi dễ đọc: DD/MM/YYYY ⏰ HH:mm:ss
+ * 
+ * @param {string} dateStr - Chuỗi ngày (định dạng dd/mm/yyyy hoặc yyyy-mm-dd).
+ * @param {string} timeStr - Chuỗi thời gian (tuỳ chọn).
+ * @returns {string} - Chuỗi định dạng thời gian hoàn chỉnh.
+ */
 function formatDateTime(dateStr, timeStr) {
   if (!dateStr) return '';
   const [day, month, year] = dateStr.includes('/') ? dateStr.split('/') : dateStr.split('-').reverse();
